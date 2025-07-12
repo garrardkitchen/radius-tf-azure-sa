@@ -15,7 +15,7 @@ variable "storage_account_name" {
   type        = string
 }
 
-variable "environment" {
+variable "tag" {
   description = "Environment tag"
   type        = string
 }
@@ -51,7 +51,7 @@ resource "azurerm_storage_account" "main" {
   account_replication_type = "LRS"
 
   tags = {
-    environment = var.environment
+    environment = var.tag
   }
 }
 
