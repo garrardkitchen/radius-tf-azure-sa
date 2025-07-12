@@ -87,3 +87,13 @@ output "storage_account_connection_string" {
   value     = azurerm_storage_account.main.primary_connection_string
   sensitive = true
 }
+
+
+output "result" {
+  value = {
+    values = {
+      resource_group_name = azurerm_resource_group.main.name
+      storage_account_name = azurerm_storage_account.main.name
+    }
+  }
+}
