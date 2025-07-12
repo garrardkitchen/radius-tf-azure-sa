@@ -1,4 +1,10 @@
 # Variables
+
+variable "context" {
+  description = "This variable contains Radius recipe context."
+  type = any
+}
+
 variable "resource_group_name" {
   description = "Name of the resource group"
   type        = string
