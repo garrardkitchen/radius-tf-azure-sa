@@ -94,6 +94,13 @@ output "result" {
     values = {
       resource_group_name = azurerm_resource_group.main.name
       storage_account_name = azurerm_storage_account.main.name
+      tag = var.tag
     }
+    resources = [
+      "/planes/azure/azurecloud/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.main.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.main.name}"
+    ]
   }
+}
+
+data "azurerm_client_config" "current" {
 }
