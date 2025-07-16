@@ -5,25 +5,10 @@ variable "context" {
   type = any
 }
 
-variable "resource_group_name" {
-  description = "Name of the resource group"
-  type        = string
-}
-
 variable "location" {
   description = "Azure region for resources"
   type        = string
   default     = "UKSouth"
-}
-
-variable "storage_account_name" {
-  description = "Name for the storage account"
-  type        = string
-}
-
-variable "tag" {
-  description = "Environment tag"
-  type        = string
 }
 
 # Configure the Azure Provider
@@ -44,20 +29,20 @@ provider "azurerm" {
 
 # Create a resource group
 resource "azurerm_resource_group" "main" {
-  name     = var.resource_group_name
+  name     = var.context.azure.resourceGroup
   location = var.location
 }
 
 # Create a storage account
 resource "azurerm_storage_account" "main" {
-  name                     = var.storage_account_name
+  name                     = var.context.resource.name
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
   tags = {
-    environment = var.tag
+    environment = var.context.environment.name
   }
 }
 
@@ -94,7 +79,7 @@ output "result" {
     values = {
       resource_group_name = azurerm_resource_group.main.name
       storage_account_name = azurerm_storage_account.main.name
-      tag = var.tag
+      tag = var.context.environment.name
     }
     resources = [
       "/planes/azure/azurecloud/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.main.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.main.name}"
