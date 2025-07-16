@@ -28,16 +28,16 @@ provider "azurerm" {
 }
 
 # Create a resource group
-resource "azurerm_resource_group" "main" {
+resource "azurerm_resource_group" "this" {
   name     = var.context.azure.resourceGroup
   location = var.location
 }
 
 # Create a storage account
-resource "azurerm_storage_account" "main" {
+resource "azurerm_storage_account" "this" {
   name                     = var.context.resource.name
-  resource_group_name      = azurerm_resource_group.main.name
-  location                 = azurerm_resource_group.main.location
+  resource_group_name      = azurerm_resource_group.this.name
+  location                 = azurerm_resource_group.this.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
@@ -48,28 +48,28 @@ resource "azurerm_storage_account" "main" {
 
 # Output the storage account name
 output "storage_account_name" {
-  value = azurerm_storage_account.main.name
+  value = azurerm_storage_account.this.name
 }
 
 # Output the resource group name
 output "resource_group_name" {
-  value = azurerm_resource_group.main.name
+  value = azurerm_resource_group.this.name
 }
 
 # Output the storage account resource ID
 output "storage_account_resource_id" {
-  value = azurerm_storage_account.main.id
+  value = azurerm_storage_account.this.id
 }
 
 # Output the storage account primary access key
 output "storage_account_primary_access_key" {
-  value     = azurerm_storage_account.main.primary_access_key
+  value     = azurerm_storage_account.this.primary_access_key
   sensitive = true
 }
 
 # Output the storage account connection string
 output "storage_account_connection_string" {
-  value     = azurerm_storage_account.main.primary_connection_string
+  value     = azurerm_storage_account.this.primary_connection_string
   sensitive = true
 }
 
@@ -77,15 +77,13 @@ output "storage_account_connection_string" {
 output "result" {
   value = {
     values = {
-      resource_group_name = azurerm_resource_group.main.name
-      storage_account_name = azurerm_storage_account.main.name
+      resource_group_name = azurerm_resource_group.this.name
+      storage_account_name = azurerm_storage_account.this.name
       tag = var.context.environment.name
     }
     resources = [
-      "/planes/azure/azurecloud/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.main.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.main.name}"
+      "/planes/azure/azurecloud/subscriptions/${var.context.azure.subscriptionId}/resourceGroups/${azurerm_resource_group.this.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.this.name}"
     ]
   }
 }
 
-data "azurerm_client_config" "current" {
-}
