@@ -82,7 +82,7 @@ output "result" {
       tag = var.context.environment.name
     }
     resources = [
-      "/planes/azure/azurecloud/subscriptions/${var.context.azure.subscriptionId}/resourceGroups/${azurerm_resource_group.this.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.this.name}"
+      "/planes/azure/azurecloud/subscriptions/${var.context.azure.subscription.id}/resourceGroups/${azurerm_resource_group.this.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.this.name}"
     ]
   }
 }
