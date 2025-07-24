@@ -22,10 +22,10 @@ terraform {
 }
 
 # Configure the Microsoft Azure Provider
-provider "azurerm" {
-  features {}
-  # use_cli = false
-}
+# provider "azurerm" {
+#   features {}
+#   # use_cli = false
+# }
 
 # Create a resource group
 resource "azurerm_resource_group" "this" {
